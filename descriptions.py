@@ -4,7 +4,7 @@ DESCRIPTIONS = [
 	},
 	{
 		"r_name": "Cause-Effect(e1,e2)",
-		"description": "causes",
+		"description": "is a cause of",
 	},
 	{  # not used in practice since we use Cause-Effect(e1,e2) with a swap instead.
 		"r_name": "Cause-Effect(e2,e1)",
@@ -36,7 +36,7 @@ DESCRIPTIONS = [
 	},
 	{
 		"r_name": "Component-Whole(e1,e2)",
-		"description": "is part of",
+		"description": "is a part of",
 	},
 	{
 		"r_name": "Component-Whole(e2,e1)",
