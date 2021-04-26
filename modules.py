@@ -1,11 +1,15 @@
 import torch
 
 
-def preprocess_sentence(s, tokenizer):
+def preprocess_sentence(s, tokenizer, to_cuda=True):
     encoded_dict = tokenizer.encode_plus(s, add_special_tokens=True, max_length=64, padding='max_length',
                                          truncation=True, return_attention_mask=True,
                                          return_tensors='pt')
-    return encoded_dict['input_ids'].cuda(), encoded_dict['attention_mask'].cuda()
+
+    if to_cuda:
+        return encoded_dict['input_ids'].cuda(), encoded_dict['attention_mask'].cuda()
+    else:
+        return encoded_dict['input_ids'], encoded_dict['attention_mask']
 
 
 def dot_similarity(t):
@@ -14,6 +18,16 @@ def dot_similarity(t):
     :return: the dot-product similarities between the first vector and the others
     """
     return torch.matmul(t[1:, :], t[0, :].T)  # (n_comparison, h) matrix product (h)
+
+
+def cosine_similarity(t):
+    """
+    :param t: tensor of shape (1 + n_comparisons, h)
+    :return: the cosine similarities between the first vector and the others
+    """
+    p = torch.matmul(t[1:, :], t[0, :].T)
+    n = torch.norm(t[0, :]) * torch.norm(t[1:, :], dim=1)
+    return p / n
 
 
 def printProgressBar(iteration, total, prefix='', suffix='', decimals=2, length=80, fill='█', printEnd="\r"):
