@@ -96,26 +96,31 @@ def process_SemEval():
         read_idx += 4
         success += 1
 
-    with open('semeval_train.json', 'w') as f:
+    with open('data/semeval_train.json', 'w') as f:
         json.dump(entries[:int(0.666 * success)], f, indent=4)
 
-    with open('semeval_val.json', 'w') as f:
+    with open('data/semeval_val.json', 'w') as f:
         json.dump(entries[int(0.666 * success):], f, indent=4)
 
     print('Finished processing {} entries'.format(success))
 
 
 class ProcessedTextDataset(Dataset):
-    def __init__(self, text_sentence_list, tokenizer):
+    def __init__(self, text_sentence_list, tokenizer, labels=None):
         self.tokenizer = tokenizer
         self.sentences = text_sentence_list
+        self.labels = labels
+        self.has_labels = labels is not None
 
     def __len__(self):
         return len(self.sentences)
 
     def __getitem__(self, item):
         input_ids, mask = preprocess_sentence(self.sentences[item], self.tokenizer, to_cuda=False)
-        return {'input_ids': input_ids.squeeze(), 'mask': mask.squeeze()}  # squeeze to have tensors of order 1
+        # squeeze to have tensors of order 1
+        return {'input_ids': input_ids.squeeze(),
+                'mask': mask.squeeze(),
+                'label': self.labels[item] if self.has_labels else None}
 
 
 if __name__ == '__main__':

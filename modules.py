@@ -27,7 +27,9 @@ def cosine_similarity(t):
     """
     p = torch.matmul(t[1:, :], t[0, :].T)
     n = torch.norm(t[0, :]) * torch.norm(t[1:, :], dim=1)
-    return p / n
+    res = p / n
+    res[torch.isnan(res)] = -1
+    return res
 
 
 def printProgressBar(iteration, total, prefix='', suffix='', decimals=2, length=80, fill='█', printEnd="\r"):

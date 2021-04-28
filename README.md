@@ -17,11 +17,11 @@ Another method that we test here is the 'exemplar' idea: we take a (disjoint) se
 
 ## Getting started
 
-Please put the [dataset](https://www.kaggle.com/drtoshi/semeval2010-task-8-dataset) in data/SemEval so that the scripts can access 'data/SemEval/TRAIN_FILE.TXT'.
+In order to run BERT predictions on the train set, run ```python basline.py``` after having changed the 'main' in order to select what you want to do
 
-In order to run BERT predictions on the train set, run ```basline.py```
+In order to evaluate the predictions, run ```python analysis.py --f [NAME OF RESULT JSON FILE]```
 
-In order to evaluate the predictions, run ```analysis.py```
+The processed dataset and exemplars are already in the repo, but the code used to generate them is entirely present.
 
 ## Results for Cause-Effect vs Component-Whole Classification
 
